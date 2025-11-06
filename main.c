@@ -161,7 +161,7 @@ int main(){
 
         int term_width = getTerminalWidth();
         int clock_width = (2 * DIGIT_WIDTH * 3) + (2 * SEP_WIDTH) + 8;
-        int left_padding = (term_width - clock_width * 2) / 2;
+        int left_padding = (term_width - clock_width) / 2;
         if (left_padding < 0) left_padding = 0;
 
 
@@ -169,7 +169,7 @@ int main(){
 
             // left alignment = (total windth - clock width )/ 2
             for(int seprations = 0; seprations < left_padding; seprations++){
-                printf("  ");
+                printf(" ");
             }  
 
             printNumberRow((currentTime->tm_hour)%12, i, COLOR.RED);
