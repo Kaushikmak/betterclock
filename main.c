@@ -12,6 +12,10 @@
 #define SOLID_SQUARE                    "█"
 #define SOLID_CENTER_SQUARE             "■"
 
+
+#define SEP_WIDTH 3
+#define DIGIT_WIDTH 5
+
 // TERMINAL colors
 const struct {
     const char *BLACK, *RED, *GREEN, *YELLOW, *BLUE, *PURPLE, *CYAN, *WHITE, *RESET;
@@ -94,8 +98,7 @@ int separator[5][3] = {
     {0, 1, 0},
     {0, 0, 0}
 };
-#define SEP_WIDTH 3
-#define DIGIT_WIDTH 5
+
 
 void printNumberRow(int n, int row, const char *colorvalue){
     int d[2];
@@ -118,7 +121,7 @@ void printNumberRow(int n, int row, const char *colorvalue){
 void printSeparatorRow(int row, const char *colorvalue) {
     for (int j = 0; j < SEP_WIDTH; j++) {
         if (separator[row][j])
-            printf("%s%s%s", colorvalue, LOW_DENSITY_DOTTED_SQUARE, COLOR.RESET);
+            printf("%s%s%s", colorvalue, SOLID_CENTER_SQUARE, COLOR.RESET);
         else
             printf(EMPTY);
     }
@@ -156,7 +159,7 @@ int main(){
 
 
             printSeparatorRow(i, COLOR.YELLOW);
-
+            printf("  ");
             printNumberRow(currentTime->tm_min, i, COLOR.GREEN);
             printf("  ");
 
