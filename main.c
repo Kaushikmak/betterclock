@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/select.h>
+#include <sys/ioctl.h>
 
 // TERMINAL characters
 #define LOW_DENSITY_DOTTED_SQUARE       "░"
@@ -24,6 +25,13 @@ const struct {
     "\e[0;34m", "\e[0;35m", "\e[0;36m", "\e[0;37m",
     "\x1b[0m"
 };
+
+// terminal width for center alignment
+int getTerminalWidth(){
+    struct winsize w;
+    ioctl(STDOUT_FILENO,TIOCGWINSZ,&w);
+    return w.ws_col;
+}
 
 // digits matrix (Unchanged)
 int digits[10][5][5] = {
@@ -151,8 +159,18 @@ int main(){
         time_t t = time(NULL);
         struct tm *currentTime = localtime(&t);
 
+        int term_width = getTerminalWidth();
+        int clock_width = (2 * DIGIT_WIDTH * 3) + (2 * SEP_WIDTH) + 8;
+        int left_padding = (term_width - clock_width * 2) / 2;
+        if (left_padding < 0) left_padding = 0;
+
 
         for (int i = 0; i < 5; i++) {
+
+            // left alignment = (total windth - clock width )/ 2
+            for(int seprations = 0; seprations < left_padding; seprations++){
+                printf("  ");
+            }  
 
             printNumberRow((currentTime->tm_hour)%12, i, COLOR.RED);
             printf("  ");
